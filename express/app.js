@@ -1,5 +1,4 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const mysql = require('mysql')
 const cors = require('cors')
 
@@ -11,14 +10,13 @@ app.use(express.json());
 app.use(cors())
 
 const pool  = mysql.createPool({
-    connectionLimit : 10,
     host            : 'localhost',
     user            : 'root',
     password        : '',
     database        : 'ksiegarnia'
 })
 
-app.get('', (req, res) => {
+app.get('/', (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
@@ -34,6 +32,5 @@ app.get('', (req, res) => {
         })
     })
 })
-
 
 app.listen(port, () => console.log(`Listening on port ${port}`))
