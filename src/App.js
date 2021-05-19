@@ -4,9 +4,12 @@ import { Button,Container,Row,Col,ButtonToolbar,ButtonGroup,Form } from 'react-b
 import Axios from "axios";
 
 const App = () => {
-  const [bookList, setBookList] = useState([]);
-  const [activePage, setActivePage] = useState(1);
-  const booksPerPage = 4;
+  const [bookList, setBookList] = useState([])
+  const [filteredBookList, setFilteredBookList] = useState([])
+  const [activePage, setActivePage] = useState(1)
+  const booksPerPage = 4
+  let titleFilter = ""
+  let authorFilter = ""
 
   useEffect(() => {
     Axios({
@@ -18,20 +21,46 @@ const App = () => {
       }
     }).then(res => {
       setBookList(res.data)
+      setFilteredBookList(res.data)
     });
   }, []);
 
+  const filter = () => {
+    setFilteredBookList(bookList.filter(bookList => bookList.autor.includes(authorFilter) && bookList.tytul.includes(titleFilter)))
+  }
+
+  const order = value => {
+    const copy = [...filteredBookList]
+    switch(value) {
+      case "ascAuth":
+        copy.sort((a, b) => ('' + a.autor).localeCompare(b.autor))
+        break;
+      case "descAuth":
+        copy.sort((a, b) => ('' + a.autor).localeCompare(b.autor)).reverse()
+        break;
+      case "ascTitle":
+        copy.sort((a, b) => ('' + a.tytul).localeCompare(b.tytul))
+        break;
+      case "descTitle":
+        copy.sort((a, b) => ('' + a.tytul).localeCompare(b.tytul)).reverse()
+        break;
+      default:
+        copy.sort((a, b) => ('' + a.autor).localeCompare(b.autor))
+        break;
+    }
+    setFilteredBookList(copy)
+  }
+
   const indexOfLastBook = activePage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
-  const currentItems = bookList.slice(indexOfFirstBook, indexOfLastBook);
+  const currentBooks = filteredBookList.slice(indexOfFirstBook, indexOfLastBook);
 
-  const booksOnPage = currentItems.map((item, key) => {
+  const booksOnPage = currentBooks.map((item, key) => {
     return (
       <li className="list-group-item d-flex" key={key}>
         <div className="pt-2">
           <div>{item.tytul}</div>
           <div><i>{item.autor}</i></div>
-
         </div>
         <div className="remove d-block ml-auto"></div>
       </li>
@@ -96,23 +125,22 @@ const App = () => {
       <Row className="row m-1 p-3 px-5 justify-content-end formRow">
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
           <Form.Label className="my-2 pr-2">Tytuł</Form.Label>
-          <Form.Control placeholder="W pustyni i w puszczy" />
+          <Form.Control onChange={e => { titleFilter = e.target.value; filter() }} placeholder="W pustyni i w puszczy" />
         </Col>
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
           <Form.Label className="my-2 pr-2">Autor</Form.Label>
-          <Form.Control placeholder="Henryk Sienkiewicz" />
+          <Form.Control onChange={e => { authorFilter = e.target.value; filter() }} placeholder="Henryk Sienkiewicz" />
         </Col>
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
           <Form.Label className="my-2 pr-2">Sortuj</Form.Label>
-          <Form.Control as="select" custom>
-            <option>Rosnąco po autorze</option>
-            <option>Malejąco po autorze</option>
-            <option>Rosnąco po tytule</option>
-            <option>Malejąco po tytule</option>
+          <Form.Control as="select" defaultValue="ascAuth" onChange={e => order(e.target.value)} custom>
+            <option value="ascAuth">Rosnąco po autorze</option>
+            <option value="descAuth">Malejąco po autorze</option>
+            <option value="ascTitle">Rosnąco po tytule</option>
+            <option value="descTitle">Malejąco po tytule</option>
           </Form.Control>
         </Col>
       </Row>
-      <div className="p-2 mx-4 border-bottom"></div>
       <Row className="row m-1 p-3 px-md-5 justify-content-end">
         <Col xs={12}>
           <ul className="list-group list-group-flush">
