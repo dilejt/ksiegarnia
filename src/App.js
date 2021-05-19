@@ -1,6 +1,6 @@
 import './App.scss';
 import React, { useState, useEffect } from 'react'
-import { Button,Container,Row,Col,ButtonToolbar,ButtonGroup,Form,Accordion,Card } from 'react-bootstrap';
+import { Button,Container,Row,Col,ButtonToolbar,ButtonGroup,Form } from 'react-bootstrap';
 import Axios from "axios";
 
 const App = () => {
@@ -56,79 +56,61 @@ const App = () => {
   });
 
   return (
-    <Container fluid className="mt-5 px-5">
-      <Row noGutters>
-        <Col lg={9} className="p-2 rounded mx-auto bg-light shadow">
-          <Row className="m-1 p-4">
-            <Col id="logo" className="p-2 h1 text-primary text-center mx-auto display-inline-block">
-              <i className="bg-primary rounded p-2 pt-5"></i>
-              <i className="bg-secondary rounded p-2 pt-4"></i>
-              <i className="bg-warning rounded p-2"></i>
-              <i className="bg-danger rounded p-2"></i>
-              <i className="bg-success rounded mr-2 p-2 pt-3"></i>
-              <span className="d-block mt-2">BookShop.pl</span>
-            </Col>
-          </Row>
-          <div className="p-2 mx-4 border-bottom"></div>
-          <Row className="row m-1 p-3 px-5 justify-content-end">
-            <Col lg={4} className="d-sm-flex text-center align-items-center px-1 pr-3">
-              <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Tytuł</Form.Label>
-              <Form.Control placeholder="W pustyni i w puszczy" />
-            </Col>
-            <Col lg={4} className="d-sm-flex text-center align-items-center px-1 pr-3">
-              <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Autor</Form.Label>
-              <Form.Control placeholder="Henryk Sienkiewicz" />
-            </Col>
-            <Col lg={4} className="d-sm-flex text-center align-items-center px-1 pr-3">
-              <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Sortuj</Form.Label>
-              <Form.Control as="select" custom>
-                <option>Rosnąco po autorze</option>
-                <option>Malejąco po autorze</option>
-                <option>Rosnąco po tytule</option>
-                <option>Malejąco po tytule</option>
-              </Form.Control>
-            </Col>
-          </Row>
-          <div className="p-2 mx-4 border-bottom"></div>
-          <Row className="row m-md-1 py-md-3 px-md-5 justify-content-end">
-            <Col xs={12}>
-              <ul className="list-group list-group-flush">
-                {booksOnPage}
-              </ul>
-            </Col>
-          </Row>
-          <Row>
-            <ButtonToolbar className="mx-auto" aria-label="Pagination">
-              <ButtonGroup className="pb-2" aria-label="Group">
-                <Button
-                  onClick={() => setActivePage(activePage>1 ? Number(activePage)-Number(1) : activePage)}
-                >
-                  &lt;
-                </Button>
-                {paginationGroup}
-                <Button
-                  onClick={() => setActivePage(activePage < pageNumbers.length ? Number(activePage)+Number(1) : activePage)}
-                >
-                  &gt;
-                </Button>
-              </ButtonGroup>
-            </ButtonToolbar>
-          </Row>
+    <Container className="m-5 p-2 rounded mx-auto bg-light shadow">
+      <Row className="m-1 p-4">
+        <Col id="logo" className="p-2 h1 text-primary text-center mx-auto display-inline-block">
+          <i className="bg-primary rounded p-2 pt-5"></i>
+          <i className="bg-secondary rounded p-2 pt-4"></i>
+          <i className="bg-warning rounded p-2"></i>
+          <i className="bg-danger rounded p-2"></i>
+          <i className="bg-success rounded mr-2 p-2 pt-3"></i>
+          <span className="d-block mt-2">BookShop.pl</span>
         </Col>
-        <Col lg={3}>
-        <Accordion className="collapseBook">
-          <div>
-            <div>
-              <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                Dodaj książke
-              </Accordion.Toggle>
-            </div>
-            <Accordion.Collapse eventKey="0">
-              <div>Hello! I'm the body</div>
-            </Accordion.Collapse>
-          </div>
-        </Accordion>
+      </Row>
+      <div className="p-2 mx-4 border-bottom"></div>
+      <Row className="row m-1 p-3 px-5 justify-content-end">
+        <Col lg={4} className="d-flex align-items-center px-1 pr-3">
+          <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Tytuł</Form.Label>
+          <Form.Control placeholder="W pustyni i w puszczy" />
         </Col>
+        <Col lg={4} className="d-flex align-items-center px-1 pr-3">
+          <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Autor</Form.Label>
+          <Form.Control placeholder="Henryk Sienkiewicz" />
+        </Col>
+        <Col lg={4} className="d-flex align-items-center px-1 pr-3">
+          <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Sortuj</Form.Label>
+          <Form.Control as="select" custom>
+            <option>Rosnąco po autorze</option>
+            <option>Malejąco po autorze</option>
+            <option>Rosnąco po tytule</option>
+            <option>Malejąco po tytule</option>
+          </Form.Control>
+        </Col>
+      </Row>
+      <div className="p-2 mx-4 border-bottom"></div>
+      <Row className="row m-1 p-3 px-5 justify-content-end">
+        <Col xs={12}>
+          <ul className="list-group list-group-flush">
+            {booksOnPage}
+          </ul>
+        </Col>
+      </Row>
+      <Row>
+        <ButtonToolbar className="mx-auto" aria-label="Pagination">
+          <ButtonGroup className="pb-2" aria-label="Group">
+            <Button
+              onClick={() => setActivePage(activePage>1 ? Number(activePage)-Number(1) : activePage)}
+            >
+              &lt;
+            </Button>
+            {paginationGroup}
+            <Button
+              onClick={() => setActivePage(activePage < pageNumbers.length ? Number(activePage)+Number(1) : activePage)}
+            >
+              &gt;
+            </Button>
+          </ButtonGroup>
+        </ButtonToolbar>
       </Row>
     </Container>
   );
