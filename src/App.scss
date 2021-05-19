@@ -1,5 +1,6 @@
-$blue: #aaebff;
 
+$blue: #aaebff;
+$font: #294499;
 #logo{
     background-color: $blue;
     > i{
@@ -57,4 +58,10 @@ li{
     vertical-align: middle;
     font-size: 1em;
     color: $blue;
+}
+.formRow{
+    color: $font;
+}
+select, input{
+    background-color: $blue !important;
 }

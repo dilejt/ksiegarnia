@@ -58,7 +58,7 @@ const App = () => {
   return (
     <Container className="m-5 p-2 rounded mx-auto bg-light shadow">
       <Row className="m-1 p-4">
-        <Col id="logo" className="p-2 h1 text-primary text-center mx-auto display-inline-block">
+        <Col id="logo" className="p-2 h1 text-primary text-center rounded mx-auto display-inline-block">
           <i className="bg-primary rounded p-2 pt-5"></i>
           <i className="bg-secondary rounded p-2 pt-4"></i>
           <i className="bg-warning rounded p-2"></i>
@@ -68,17 +68,42 @@ const App = () => {
         </Col>
       </Row>
       <div className="p-2 mx-4 border-bottom"></div>
-      <Row className="row m-1 p-3 px-5 justify-content-end">
-        <Col lg={4} className="d-flex align-items-center px-1 pr-3">
-          <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Tytuł</Form.Label>
+      <Row className="row m-1 p-3 px-5 justify-content-center formRow">
+        <Col lg={12} className="text-center align-items-center px-1 pb-3">
+          <h3>Dodaj książkę</h3>
+        </Col>
+        <Form className="text-right">
+          <Form.Group className="text-center" as={Row}>
+            <Form.Label column sm={2}>
+            Tytuł
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control placeholder="Nowy tytuł" />
+            </Col>
+          </Form.Group>
+          <Form.Group className="text-center" as={Row}>
+            <Form.Label column sm={2}>
+            Autor
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control placeholder="Autor" />
+            </Col>
+          </Form.Group>
+          <Button type="submit">Dodaj</Button>
+        </Form>
+      </Row>
+      <div className="p-2 mx-4 border-bottom"></div>
+      <Row className="row m-1 p-3 px-5 justify-content-end formRow">
+        <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
+          <Form.Label className="my-2 pr-2">Tytuł</Form.Label>
           <Form.Control placeholder="W pustyni i w puszczy" />
         </Col>
-        <Col lg={4} className="d-flex align-items-center px-1 pr-3">
-          <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Autor</Form.Label>
+        <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
+          <Form.Label className="my-2 pr-2">Autor</Form.Label>
           <Form.Control placeholder="Henryk Sienkiewicz" />
         </Col>
-        <Col lg={4} className="d-flex align-items-center px-1 pr-3">
-          <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Sortuj</Form.Label>
+        <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
+          <Form.Label className="my-2 pr-2">Sortuj</Form.Label>
           <Form.Control as="select" custom>
             <option>Rosnąco po autorze</option>
             <option>Malejąco po autorze</option>
@@ -88,7 +113,7 @@ const App = () => {
         </Col>
       </Row>
       <div className="p-2 mx-4 border-bottom"></div>
-      <Row className="row m-1 p-3 px-5 justify-content-end">
+      <Row className="row m-1 p-3 px-md-5 justify-content-end">
         <Col xs={12}>
           <ul className="list-group list-group-flush">
             {booksOnPage}
