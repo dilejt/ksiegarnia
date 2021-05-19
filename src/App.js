@@ -1,12 +1,12 @@
 import './App.scss';
 import React, { useState, useEffect } from 'react'
-import { Button,Container,Row,Col,ButtonToolbar,ButtonGroup } from 'react-bootstrap';
+import { Button,Container,Row,Col,ButtonToolbar,ButtonGroup,Form } from 'react-bootstrap';
 import Axios from "axios";
 
 const App = () => {
   const [bookList, setBookList] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const [itemsPerPage] = useState(4);
+  const booksPerPage = 4;
 
   useEffect(() => {
     Axios({
@@ -21,24 +21,25 @@ const App = () => {
     });
   }, []);
 
-  const books = bookList.map(book => {
+  const indexOfLastBook = activePage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentItems = bookList.slice(indexOfFirstBook, indexOfLastBook);
+
+  const booksOnPage = currentItems.map((item, key) => {
     return (
-      <Col key={book.id}>
-        {book.tytul}
-      </Col>
+      <li className="list-group-item d-flex" key={key}>
+        <div className="pt-2">
+          <div>{item.tytul}</div>
+          <div><i>{item.autor}</i></div>
+
+        </div>
+        <div className="remove d-block ml-auto"></div>
+      </li>
     )
   })
 
-  const indexOfLastItem = activePage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = books.slice(indexOfFirstItem, indexOfLastItem);
-
-  const itemsOnPage = currentItems.map((item, key) => {
-    return <Col key={key}>{item}</Col>;
-  });
-
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(books.length / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(bookList.length / booksPerPage); i++) {
     pageNumbers.push(i);
   }
 
@@ -55,19 +56,56 @@ const App = () => {
   });
 
   return (
-    <Container className="App">
+    <Container className="m-5 p-2 rounded mx-auto bg-light shadow">
+      <Row className="m-1 p-4">
+        <Col id="logo" className="p-2 h1 text-primary text-center mx-auto display-inline-block">
+          <i className="bg-primary rounded p-2 pt-5"></i>
+          <i className="bg-secondary rounded p-2 pt-4"></i>
+          <i className="bg-warning rounded p-2"></i>
+          <i className="bg-danger rounded p-2"></i>
+          <i className="bg-success rounded mr-2 p-2 pt-3"></i>
+          <span className="d-block mt-2">BookShop.pl</span>
+        </Col>
+      </Row>
+      <div className="p-2 mx-4 border-bottom"></div>
+      <Row className="row m-1 p-3 px-5 justify-content-end">
+        <Col lg={4} className="d-flex align-items-center px-1 pr-3">
+          <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Tytuł</Form.Label>
+          <Form.Control placeholder="W pustyni i w puszczy" />
+        </Col>
+        <Col lg={4} className="d-flex align-items-center px-1 pr-3">
+          <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Autor</Form.Label>
+          <Form.Control placeholder="Henryk Sienkiewicz" />
+        </Col>
+        <Col lg={4} className="d-flex align-items-center px-1 pr-3">
+          <Form.Label className="text-secondary my-2 pr-2 view-opt-label">Sortuj</Form.Label>
+          <Form.Control as="select" custom>
+            <option>Rosnąco po autorze</option>
+            <option>Malejąco po autorze</option>
+            <option>Rosnąco po tytule</option>
+            <option>Malejąco po tytule</option>
+          </Form.Control>
+        </Col>
+      </Row>
+      <div className="p-2 mx-4 border-bottom"></div>
+      <Row className="row m-1 p-3 px-5 justify-content-end">
+        <Col xs={12}>
+          <ul className="list-group list-group-flush">
+            {booksOnPage}
+          </ul>
+        </Col>
+      </Row>
       <Row>
-        {itemsOnPage}
-        <ButtonToolbar aria-label="Pagination">
-          <ButtonGroup className="mr-2" aria-label="Group">
+        <ButtonToolbar className="mx-auto" aria-label="Pagination">
+          <ButtonGroup className="pb-2" aria-label="Group">
             <Button
-              onClick={() => setActivePage(activePage>1 ? activePage-1 : activePage)}
+              onClick={() => setActivePage(activePage>1 ? Number(activePage)-Number(1) : activePage)}
             >
               &lt;
             </Button>
             {paginationGroup}
             <Button
-              onClick={() => setActivePage(activePage < pageNumbers.length ? activePage+1 : activePage)}
+              onClick={() => setActivePage(activePage < pageNumbers.length ? Number(activePage)+Number(1) : activePage)}
             >
               &gt;
             </Button>
