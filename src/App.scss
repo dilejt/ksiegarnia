@@ -30,12 +30,12 @@ $blue: #aaebff;
         }
     }
 }
-// @media (min-width: 576px) {
-//     html { font-size: 1.25rem; }
-// }
-// @media (min-width: 768px) {
-//     html { font-size: 1.5rem; }
-// }
+@media (max-width: 576px) {
+    #logo > span { font-size: 1.25rem; }
+}
+@media (max-width: 768px) {
+    #logo > span { font-size: 1.5rem; }
+}
 li{
     border-left: 6px solid !important;
     border-radius: 5px !important;
@@ -57,4 +57,9 @@ li{
     vertical-align: middle;
     font-size: 1em;
     color: $blue;
+}
+.collapseBook{
+    transform: rotate(270deg);
+    transform-origin: top left;
+    margin-top: 400px;
 }
