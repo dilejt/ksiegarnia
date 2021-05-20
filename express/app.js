@@ -28,8 +28,21 @@ app.get('/', (req, res) => {
                 console.log(err)
             }
             // if(err) throw err
-            console.log('The data from beer table are: \n', rows)
+            console.log('The data from table: \n', rows)
         })
+    })
+})
+
+app.post('/', (req, res) => {
+    let book = req.body;
+    console.log(book)
+    pool.getConnection((err, connection) => {
+        if(err) throw err
+        console.log('connected as id ' + connection.threadId)
+        connection.query('INSERT INTO ksiazka(tytul,autor) VALUES(?,?)', [book.title, book.author], (err, result) => {
+
+        })
+        res.end('Success')
     })
 })
 

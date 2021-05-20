@@ -1,7 +1,7 @@
-import './App.scss';
+import './App.scss'
 import React, { useState, useEffect } from 'react'
-import { Button,Container,Row,Col,ButtonToolbar,ButtonGroup,Form } from 'react-bootstrap';
-import Axios from "axios";
+import { Button,Container,Row,Col,ButtonToolbar,ButtonGroup,Form } from 'react-bootstrap'
+import Axios from "axios"
 
 const App = () => {
   const [bookList, setBookList] = useState([])
@@ -9,6 +9,8 @@ const App = () => {
   const [activePage, setActivePage] = useState(1)
   const [authorFilter, setAuthorFilter] = useState("")
   const [titleFilter, setTitleFilter] = useState("")
+  const [newTitle, setNewTitle] = useState("")
+  const [newAuthor, setNewAuthor] = useState("")
   const [order, setOrder] = useState("")
   const booksPerPage = 4
 
@@ -23,8 +25,8 @@ const App = () => {
     }).then(res => {
       setBookList(res.data)
       setFilteredBookList(res.data)
-    });
-  }, []);
+    })
+  }, [])
 
   const modifyBookList = (filteredBookList) => {
     let copy = [...filteredBookList]
@@ -32,25 +34,25 @@ const App = () => {
     switch(order) {
       case "ascAuth":
         copy.sort((a, b) => ('' + a.autor).localeCompare(b.autor))
-        break;
+        break
       case "descAuth":
         copy.sort((a, b) => ('' + a.autor).localeCompare(b.autor)).reverse()
-        break;
+        break
       case "ascTitle":
         copy.sort((a, b) => ('' + a.tytul).localeCompare(b.tytul))
-        break;
+        break
       case "descTitle":
         copy.sort((a, b) => ('' + a.tytul).localeCompare(b.tytul)).reverse()
-        break;
+        break
       default:
         copy.sort((a, b) => ('' + a.autor).localeCompare(b.autor))
-        break;
+        break
     }
-    return copy.slice(indexOfFirstBook, indexOfLastBook);
+    return copy.slice(indexOfFirstBook, indexOfLastBook)
   }
 
-  const indexOfLastBook = activePage * booksPerPage;
-  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const indexOfLastBook = activePage * booksPerPage
+  const indexOfFirstBook = indexOfLastBook - booksPerPage
   const currentBooks = modifyBookList(filteredBookList)
   
   const booksOnPage = currentBooks.map((item, key) => {
@@ -65,9 +67,9 @@ const App = () => {
     )
   })
 
-  const pageNumbers = [];
+  const pageNumbers = []
   for (let i = 1; i <= Math.ceil(bookList.length / booksPerPage); i++) {
-    pageNumbers.push(i);
+    pageNumbers.push(i)
   }
 
   const paginationGroup = pageNumbers.map(key => {
@@ -79,8 +81,26 @@ const App = () => {
       >
         {key}
       </Button>
-    );
-  });
+    )
+  })
+
+  const addBook = () => {
+    Axios({
+      method: "POST",
+      url: "http://localhost:5000/",
+      data: {
+        title: newTitle,
+        author: newAuthor
+      }
+    })
+    .then(function (response) {
+        console.log(response)
+    })
+    .catch(function (error) {
+        console.log(error)
+    })
+    // setBookList([...bookList, newBook])
+  }
 
   return (
     <Container className="m-5 p-2 rounded mx-auto bg-light shadow">
@@ -99,13 +119,13 @@ const App = () => {
         <Col lg={12} className="text-center align-items-center px-1 pb-3">
           <h3>Dodaj książkę</h3>
         </Col>
-        <Form className="text-right">
+        <Col md={6} className="text-right">
           <Form.Group className="text-center" as={Row}>
             <Form.Label column sm={2}>
             Tytuł
             </Form.Label>
             <Col sm={10}>
-              <Form.Control placeholder="Nowy tytuł" />
+              <Form.Control onChange={e => setNewTitle(e.target.value)} placeholder="Nowy tytuł" />
             </Col>
           </Form.Group>
           <Form.Group className="text-center" as={Row}>
@@ -113,11 +133,11 @@ const App = () => {
             Autor
             </Form.Label>
             <Col sm={10}>
-              <Form.Control placeholder="Autor" />
+              <Form.Control onChange={e => setNewAuthor(e.target.value)} placeholder="Autor" />
             </Col>
           </Form.Group>
-          <Button type="submit">Dodaj</Button>
-        </Form>
+          <Button type="submit" onClick={() => addBook()}>Dodaj</Button>
+        </Col>
       </Row>
       <div className="p-2 mx-4 border-bottom"></div>
       <Row className="row m-1 p-3 px-5 justify-content-end formRow">
@@ -164,7 +184,7 @@ const App = () => {
         </ButtonToolbar>
       </Row>
     </Container>
-  );
+  )
 }
 
-export default App;
+export default App

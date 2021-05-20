@@ -50,15 +50,19 @@ li{
     height: 1.25rem;
     line-height: 20px;
     text-align: center;
+    &::before{
+        content: "✘";
+        display: inline-block;
+        padding-right: 3px;
+        vertical-align: middle;
+        font-size: 1em;
+        color: $blue;
+    }
+    &:hover::before{
+        color: red;
+    }
 }
-.remove::before{
-    content: "✘";
-    display: inline-block;
-    padding-right: 3px;
-    vertical-align: middle;
-    font-size: 1em;
-    color: $blue;
-}
+
 .formRow{
     color: $font;
 }
