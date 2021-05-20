@@ -7,9 +7,10 @@ const App = () => {
   const [bookList, setBookList] = useState([])
   const [filteredBookList, setFilteredBookList] = useState([])
   const [activePage, setActivePage] = useState(1)
+  const [authorFilter, setAuthorFilter] = useState("")
+  const [titleFilter, setTitleFilter] = useState("")
+  const [order, setOrder] = useState("")
   const booksPerPage = 4
-  let titleFilter = ""
-  let authorFilter = ""
 
   useEffect(() => {
     Axios({
@@ -25,13 +26,10 @@ const App = () => {
     });
   }, []);
 
-  const filter = () => {
-    setFilteredBookList(bookList.filter(bookList => bookList.autor.includes(authorFilter) && bookList.tytul.includes(titleFilter)))
-  }
-
-  const order = value => {
-    const copy = [...filteredBookList]
-    switch(value) {
+  const modifyBookList = (filteredBookList) => {
+    let copy = [...filteredBookList]
+    copy = copy.filter(bookList => bookList.autor.includes(authorFilter) && bookList.tytul.includes(titleFilter))
+    switch(order) {
       case "ascAuth":
         copy.sort((a, b) => ('' + a.autor).localeCompare(b.autor))
         break;
@@ -48,13 +46,13 @@ const App = () => {
         copy.sort((a, b) => ('' + a.autor).localeCompare(b.autor))
         break;
     }
-    setFilteredBookList(copy)
+    return copy.slice(indexOfFirstBook, indexOfLastBook);
   }
 
   const indexOfLastBook = activePage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
-  const currentBooks = filteredBookList.slice(indexOfFirstBook, indexOfLastBook);
-
+  const currentBooks = modifyBookList(filteredBookList)
+  
   const booksOnPage = currentBooks.map((item, key) => {
     return (
       <li className="list-group-item d-flex" key={key}>
@@ -125,15 +123,15 @@ const App = () => {
       <Row className="row m-1 p-3 px-5 justify-content-end formRow">
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
           <Form.Label className="my-2 pr-2">Tytuł</Form.Label>
-          <Form.Control onChange={e => { titleFilter = e.target.value; filter() }} placeholder="W pustyni i w puszczy" />
+          <Form.Control onChange={e => setTitleFilter(e.target.value)} placeholder="W pustyni i w puszczy" />
         </Col>
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
           <Form.Label className="my-2 pr-2">Autor</Form.Label>
-          <Form.Control onChange={e => { authorFilter = e.target.value; filter() }} placeholder="Henryk Sienkiewicz" />
+          <Form.Control onChange={e => setAuthorFilter(e.target.value)} placeholder="Henryk Sienkiewicz" />
         </Col>
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
           <Form.Label className="my-2 pr-2">Sortuj</Form.Label>
-          <Form.Control as="select" defaultValue="ascAuth" onChange={e => order(e.target.value)} custom>
+          <Form.Control as="select" defaultValue="ascAuth" onChange={e => setOrder(e.target.value)} custom>
             <option value="ascAuth">Rosnąco po autorze</option>
             <option value="descAuth">Malejąco po autorze</option>
             <option value="ascTitle">Rosnąco po tytule</option>
