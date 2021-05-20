@@ -31,12 +31,6 @@ $font: #294499;
         }
     }
 }
-// @media (min-width: 576px) {
-//     html { font-size: 1.25rem; }
-// }
-// @media (min-width: 768px) {
-//     html { font-size: 1.5rem; }
-// }
 li{
     border-left: 6px solid !important;
     border-radius: 5px !important;
@@ -62,9 +56,11 @@ li{
         color: red;
     }
 }
-
 .formRow{
     color: $font;
+    div i{
+        background-color: $blue !important;
+    }
 }
 select, input{
     background-color: $blue !important;

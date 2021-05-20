@@ -14,7 +14,8 @@ const App = () => {
   const [order, setOrder] = useState("")
   const booksPerPage = 4
 
-  useEffect(() => {
+
+  const fetchData = () => {
     Axios({
       method: "GET",
       url: "http://localhost:5000/",
@@ -26,11 +27,15 @@ const App = () => {
       setBookList(res.data)
       setFilteredBookList(res.data)
     })
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [])
 
   const modifyBookList = (filteredBookList) => {
     let copy = [...filteredBookList]
-    copy = copy.filter(bookList => bookList.autor.includes(authorFilter) && bookList.tytul.includes(titleFilter))
+    if(authorFilter && titleFilter) copy = copy.filter(bookList => bookList.autor.includes(authorFilter) && bookList.tytul.includes(titleFilter))
     switch(order) {
       case "ascAuth":
         copy.sort((a, b) => ('' + a.autor).localeCompare(b.autor))
@@ -53,16 +58,16 @@ const App = () => {
 
   const indexOfLastBook = activePage * booksPerPage
   const indexOfFirstBook = indexOfLastBook - booksPerPage
-  const currentBooks = modifyBookList(filteredBookList)
+  let currentBooks = modifyBookList(filteredBookList)
   
-  const booksOnPage = currentBooks.map((item, key) => {
+  const booksOnPage = currentBooks.map((item) => {
     return (
-      <li className="list-group-item d-flex" key={key}>
+      <li className="list-group-item d-flex" key={item.id}>
         <div className="pt-2">
           <div>{item.tytul}</div>
           <div><i>{item.autor}</i></div>
         </div>
-        <div className="remove d-block ml-auto"></div>
+        <div onClick={() => removeBook(item.id)} className="remove d-block ml-auto"></div>
       </li>
     )
   })
@@ -84,22 +89,37 @@ const App = () => {
     )
   })
 
+  const removeBook = id => {
+    Axios({
+      method: "POST",
+      url: "http://localhost:5000/delete",
+      data: {
+        id : id
+      }
+    })
+    .then(() => {
+      fetchData()
+    })
+    .catch(function (error) {
+      //console.log(error)
+    })
+  }
+
   const addBook = () => {
     Axios({
       method: "POST",
-      url: "http://localhost:5000/",
+      url: "http://localhost:5000/add",
       data: {
-        title: newTitle,
-        author: newAuthor
+        tytul: newTitle,
+        autor: newAuthor
       }
     })
-    .then(function (response) {
-        console.log(response)
+    .then(() => {
+      fetchData()
     })
     .catch(function (error) {
-        console.log(error)
+      //console.log(error)
     })
-    // setBookList([...bookList, newBook])
   }
 
   return (
@@ -115,17 +135,15 @@ const App = () => {
         </Col>
       </Row>
       <div className="p-2 mx-4 border-bottom"></div>
-      <Row className="row m-1 p-3 px-5 justify-content-center formRow">
-        <Col lg={12} className="text-center align-items-center px-1 pb-3">
-          <h3>Dodaj książkę</h3>
-        </Col>
+      <Row className="row m-1 mt-3 p-3 px-5 justify-content-center formRow">
         <Col md={6} className="text-right">
+        <h3 className="text-center pb-3">Dodaj książkę</h3>
           <Form.Group className="text-center" as={Row}>
             <Form.Label column sm={2}>
             Tytuł
             </Form.Label>
             <Col sm={10}>
-              <Form.Control onChange={e => setNewTitle(e.target.value)} placeholder="Nowy tytuł" />
+              <Form.Control className="border-primary" onChange={e => setNewTitle(e.target.value)} placeholder="Nowy tytuł" />
             </Col>
           </Form.Group>
           <Form.Group className="text-center" as={Row}>
@@ -133,7 +151,7 @@ const App = () => {
             Autor
             </Form.Label>
             <Col sm={10}>
-              <Form.Control onChange={e => setNewAuthor(e.target.value)} placeholder="Autor" />
+              <Form.Control className="border-primary" onChange={e => setNewAuthor(e.target.value)} placeholder="Autor" />
             </Col>
           </Form.Group>
           <Button type="submit" onClick={() => addBook()}>Dodaj</Button>
@@ -143,15 +161,15 @@ const App = () => {
       <Row className="row m-1 p-3 px-5 justify-content-end formRow">
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
           <Form.Label className="my-2 pr-2">Tytuł</Form.Label>
-          <Form.Control onChange={e => setTitleFilter(e.target.value)} placeholder="W pustyni i w puszczy" />
+          <Form.Control className="border-primary" onChange={e => setTitleFilter(e.target.value)} placeholder="W pustyni i w puszczy" />
         </Col>
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
           <Form.Label className="my-2 pr-2">Autor</Form.Label>
-          <Form.Control onChange={e => setAuthorFilter(e.target.value)} placeholder="Henryk Sienkiewicz" />
+          <Form.Control className="border-primary" onChange={e => setAuthorFilter(e.target.value)} placeholder="Henryk Sienkiewicz" />
         </Col>
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
           <Form.Label className="my-2 pr-2">Sortuj</Form.Label>
-          <Form.Control as="select" defaultValue="ascAuth" onChange={e => setOrder(e.target.value)} custom>
+          <Form.Control className="border-primary" as="select" defaultValue="ascAuth" onChange={e => setOrder(e.target.value)} custom>
             <option value="ascAuth">Rosnąco po autorze</option>
             <option value="descAuth">Malejąco po autorze</option>
             <option value="ascTitle">Rosnąco po tytule</option>

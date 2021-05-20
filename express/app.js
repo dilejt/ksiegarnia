@@ -33,13 +33,23 @@ app.get('/', (req, res) => {
     })
 })
 
-app.post('/', (req, res) => {
+app.post('/add', (req, res) => {
     let book = req.body;
-    console.log(book)
     pool.getConnection((err, connection) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
-        connection.query('INSERT INTO ksiazka(tytul,autor) VALUES(?,?)', [book.title, book.author], (err, result) => {
+        connection.query('INSERT INTO ksiazka(tytul,autor) VALUES(?,?)', [book.tytul, book.autor], (err, result) => {
+
+        })
+        res.end('Success')
+    })
+})
+
+app.post('/delete', (req, res) => {
+    pool.getConnection((err, connection) => {
+        if(err) throw err
+        console.log('connected as id ' + connection.threadId)
+        connection.query('DELETE FROM ksiazka WHERE id=(?)', req.body.id, (err, rows) => {
 
         })
         res.end('Success')
