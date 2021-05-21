@@ -2,8 +2,8 @@ import './App.scss'
 import React, { useState, useEffect } from 'react'
 import { Button,Container,Row,Col,ButtonToolbar,ButtonGroup,Form } from 'react-bootstrap'
 import Axios from "axios"
-import $ from 'jquery'
-import 'animate.css'
+import "animate.css/source/animate.css";
+import {Animated} from 'react-animated-css'
 
 const App = () => {
   const [bookList, setBookList] = useState([])
@@ -14,11 +14,8 @@ const App = () => {
   const [newTitle, setNewTitle] = useState("")
   const [newAuthor, setNewAuthor] = useState("")
   const [order, setOrder] = useState("")
+  const [animationState, setAnimationState] = useState(true)
   const booksPerPage = 4
-
-  const animateOnClick = (e) => {
-    $(e.target).parent()[0].addClass('animate__animated animate__backOutRight')
-  }
 
   const fetchData = () => {
     Axios({
@@ -67,13 +64,15 @@ const App = () => {
   
   const booksOnPage = currentBooks.map((item) => {
     return (
-      <li className="list-group-item d-flex bookItemList" key={item.id}>
-        <div className="pt-2">
-          <div>{item.tytul}</div>
-          <div><i>{item.autor}</i></div>
-        </div>
-        <div onClick={(e) => {removeBook(item.id); animateOnClick(e)} } className="remove d-block ml-auto"></div>
-      </li>
+      <Animated animationIn="zoomInDown" animationOut="bounceOutRight" animationInDuration={1000} animationOutDuration={1000} isVisible={animationState}>
+        <li className="list-group-item d-flex bookItemList" key={item.id}>
+          <div className="pt-2">
+            <div>{item.tytul}</div>
+            <div><i>{item.autor}</i></div>
+          </div>
+          <div onClick={() => removeBook(item.id) } className="remove d-block ml-auto"></div>
+        </li>
+      </Animated>
     )
   })
 
@@ -95,6 +94,7 @@ const App = () => {
   })
 
   const removeBook = id => {
+    setAnimationState(false)
     Axios({
       method: "POST",
       url: "http://localhost:5000/delete",
