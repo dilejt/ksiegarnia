@@ -31,7 +31,7 @@ $font: #294499;
         }
     }
 }
-li{
+.bookItemList{
     border-left: 6px solid !important;
     border-radius: 5px !important;
     border-color: $blue !important;
@@ -54,6 +54,20 @@ li{
     }
     &:hover::before{
         color: red;
+    }
+}
+.addBookForm{
+    background-repeat: repeat-y;
+    background-size: cover;
+    position: relative;
+    &::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #00293b00;
+        height: 100%;
+        width: 100%;
     }
 }
 .formRow{

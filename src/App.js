@@ -2,6 +2,8 @@ import './App.scss'
 import React, { useState, useEffect } from 'react'
 import { Button,Container,Row,Col,ButtonToolbar,ButtonGroup,Form } from 'react-bootstrap'
 import Axios from "axios"
+import $ from 'jquery'
+import 'animate.css'
 
 const App = () => {
   const [bookList, setBookList] = useState([])
@@ -14,6 +16,9 @@ const App = () => {
   const [order, setOrder] = useState("")
   const booksPerPage = 4
 
+  const animateOnClick = (e) => {
+    $(e.target).parent()[0].addClass('animate__animated animate__backOutRight')
+  }
 
   const fetchData = () => {
     Axios({
@@ -62,12 +67,12 @@ const App = () => {
   
   const booksOnPage = currentBooks.map((item) => {
     return (
-      <li className="list-group-item d-flex" key={item.id}>
+      <li className="list-group-item d-flex bookItemList" key={item.id}>
         <div className="pt-2">
           <div>{item.tytul}</div>
           <div><i>{item.autor}</i></div>
         </div>
-        <div onClick={() => removeBook(item.id)} className="remove d-block ml-auto"></div>
+        <div onClick={(e) => {removeBook(item.id); animateOnClick(e)} } className="remove d-block ml-auto"></div>
       </li>
     )
   })
@@ -123,7 +128,7 @@ const App = () => {
   }
 
   return (
-    <Container className="m-5 p-2 rounded mx-auto bg-light shadow">
+    <Container className="m-5 p-md-2 rounded mx-auto bg-light shadow">
       <Row className="m-1 p-4">
         <Col id="logo" className="p-2 h1 text-primary text-center rounded mx-auto display-inline-block">
           <i className="bg-primary rounded p-2 pt-5"></i>
@@ -135,11 +140,11 @@ const App = () => {
         </Col>
       </Row>
       <div className="p-2 mx-4 border-bottom"></div>
-      <Row className="row m-1 mt-3 p-3 px-5 justify-content-center formRow">
+      <Row style={{ backgroundImage: "url(/images/bg.jpg)" }} className="row m-1 mt-3 py-3 justify-content-center formRow addBookForm">
         <Col md={6} className="text-right">
         <h3 className="text-center pb-3">Dodaj książkę</h3>
           <Form.Group className="text-center" as={Row}>
-            <Form.Label column sm={2}>
+            <Form.Label className="font-weight-bold"column sm={2}>
             Tytuł
             </Form.Label>
             <Col sm={10}>
@@ -147,7 +152,7 @@ const App = () => {
             </Col>
           </Form.Group>
           <Form.Group className="text-center" as={Row}>
-            <Form.Label column sm={2}>
+            <Form.Label className="font-weight-bold" column sm={2}>
             Autor
             </Form.Label>
             <Col sm={10}>
@@ -160,15 +165,15 @@ const App = () => {
       <div className="p-2 mx-4 border-bottom"></div>
       <Row className="row m-1 p-3 px-5 justify-content-end formRow">
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
-          <Form.Label className="my-2 pr-2">Tytuł</Form.Label>
+          <Form.Label className="my-2 pr-2 font-weight-bold">Tytuł</Form.Label>
           <Form.Control className="border-primary" onChange={e => setTitleFilter(e.target.value)} placeholder="W pustyni i w puszczy" />
         </Col>
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
-          <Form.Label className="my-2 pr-2">Autor</Form.Label>
+          <Form.Label className="my-2 pr-2 font-weight-bold">Autor</Form.Label>
           <Form.Control className="border-primary" onChange={e => setAuthorFilter(e.target.value)} placeholder="Henryk Sienkiewicz" />
         </Col>
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
-          <Form.Label className="my-2 pr-2">Sortuj</Form.Label>
+          <Form.Label className="my-2 pr-2 font-weight-bold">Sortuj</Form.Label>
           <Form.Control className="border-primary" as="select" defaultValue="ascAuth" onChange={e => setOrder(e.target.value)} custom>
             <option value="ascAuth">Rosnąco po autorze</option>
             <option value="descAuth">Malejąco po autorze</option>
