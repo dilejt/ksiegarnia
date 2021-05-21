@@ -1,81 +1,86 @@
-
 $blue: #aaebff;
 $font: #294499;
-#logo{
-    background-color: $blue;
-    > i{
-        user-select: none;
-        @for $i from 1 through (2) {
-            &:nth-child(5n + #{$i})::after{
-                top: #{($i * 22px - 50px)};
+
+.container{
+    #logo{
+        background-color: $blue;
+        > i{
+            user-select: none;
+            @for $i from 1 through (2) {
+                &:nth-child(5n + #{$i})::after{
+                    top: #{($i * 22px - 50px)};
+                }
+            }
+            &::after{
+                position: absolute;
+                content: '';
+                display: inline;
+                width: 1rem;
+                height: .5rem;
+                background-color: $blue;
+                margin-left: -8px;
+            }
+            &::before{
+                position: absolute;
+                content: '';
+                display: inline;
+                width: 1rem;
+                height: .5rem;
+                background-color: $blue;
+                margin-left: -8px;
+                bottom: 62px;
             }
         }
-        &::after{
-            position: absolute;
-            content: '';
-            display: inline;
-            width: 1rem;
-            height: .5rem;
-            background-color: $blue;
-            margin-left: -8px;
+    }
+    .formRow{
+        color: $font;
+        select, input{
+            background-color: $blue !important;
         }
+        div i{
+            background-color: $blue !important;
+        }
+    }
+    .addBookForm{
+        background-repeat: repeat-y;
+        background-size: cover;
+        position: relative;
         &::before{
-            position: absolute;
             content: '';
-            display: inline;
-            width: 1rem;
-            height: .5rem;
-            background-color: $blue;
-            margin-left: -8px;
-            bottom: 62px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #00293b00;
+            height: 100%;
+            width: 100%;
         }
     }
-}
-.bookItemList{
-    border-left: 6px solid !important;
-    border-radius: 5px !important;
-    border-color: $blue !important;
-}
-.remove{
-    cursor: pointer;
-    font-size: 1.438rem;
-    font-weight: 600;
-    width: 1.25rem;
-    height: 1.25rem;
-    line-height: 20px;
-    text-align: center;
-    &::before{
-        content: "✘";
-        display: inline-block;
-        padding-right: 3px;
-        vertical-align: middle;
-        font-size: 1em;
-        color: $blue;
+    .bookList{
+        max-height: 322px;
+        .bookItemList{
+            border-left: 6px solid !important;
+            border-radius: 5px !important;
+            border-color: $blue !important;
+            .remove{
+                cursor: pointer;
+                font-size: 1.438rem;
+                font-weight: 600;
+                width: 1.25rem;
+                height: 1.25rem;
+                line-height: 20px;
+                text-align: center;
+                &::before{
+                    content: "✘";
+                    display: inline-block;
+                    padding-right: 3px;
+                    vertical-align: middle;
+                    font-size: 1em;
+                    color: $blue;
+                }
+                &:hover::before{
+                    color: red;
+                }
+            }
+        }
     }
-    &:hover::before{
-        color: red;
-    }
-}
-.addBookForm{
-    background-repeat: repeat-y;
-    background-size: cover;
-    position: relative;
-    &::before{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: #00293b00;
-        height: 100%;
-        width: 100%;
-    }
-}
-.formRow{
-    color: $font;
-    div i{
-        background-color: $blue !important;
-    }
-}
-select, input{
-    background-color: $blue !important;
 }

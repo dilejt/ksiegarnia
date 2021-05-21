@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
         connection.query('SELECT * from ksiazka', (err, rows) => {
-            connection.release() // return the connection to pool
+            connection.release()
             if (!err) {
                 res.send(rows)
             } else {
@@ -39,7 +39,7 @@ app.post('/add', (req, res) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
         connection.query('INSERT INTO ksiazka(tytul,autor) VALUES(?,?)', [book.tytul, book.autor], (err, result) => {
-
+            connection.release()
         })
         res.end('Success')
     })
@@ -50,7 +50,7 @@ app.post('/delete', (req, res) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
         connection.query('DELETE FROM ksiazka WHERE id=(?)', req.body.id, (err, rows) => {
-
+            connection.release()
         })
         res.end('Success')
     })

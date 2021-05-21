@@ -2,8 +2,9 @@ import './App.scss'
 import React, { useState, useEffect } from 'react'
 import { Button,Container,Row,Col,ButtonToolbar,ButtonGroup,Form } from 'react-bootstrap'
 import Axios from "axios"
-import "animate.css/source/animate.css";
-import {Animated} from 'react-animated-css'
+//import "animate.css/source/animate.css";
+import "animate.css";
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const App = () => {
   const [bookList, setBookList] = useState([])
@@ -14,7 +15,6 @@ const App = () => {
   const [newTitle, setNewTitle] = useState("")
   const [newAuthor, setNewAuthor] = useState("")
   const [order, setOrder] = useState("")
-  const [animationState, setAnimationState] = useState(true)
   const booksPerPage = 4
 
   const fetchData = () => {
@@ -62,17 +62,31 @@ const App = () => {
   const indexOfFirstBook = indexOfLastBook - booksPerPage
   let currentBooks = modifyBookList(filteredBookList)
   
+  //const nodeRef = React.useRef(null)
+
   const booksOnPage = currentBooks.map((item) => {
     return (
-      <Animated animationIn="zoomInDown" animationOut="bounceOutRight" animationInDuration={1000} animationOutDuration={1000} isVisible={animationState}>
-        <li className="list-group-item d-flex bookItemList" key={item.id}>
+      <CSSTransition
+        in = {false}
+        unmountOnExit
+        // nodeRef = {nodeRef}
+        timeout = {800}
+        key = {item.id}
+        classNames={{
+          enter: "animate__animated",
+          enterActive: "animate__bounceInLeft",
+          exit: "animate__animated",
+          exitActive: "animate__backOutDown"
+        }}
+      >
+        <li className="list-group-item d-flex bookItemList">
           <div className="pt-2">
             <div>{item.tytul}</div>
             <div><i>{item.autor}</i></div>
           </div>
           <div onClick={() => removeBook(item.id) } className="remove d-block ml-auto"></div>
         </li>
-      </Animated>
+      </CSSTransition>
     )
   })
 
@@ -94,7 +108,6 @@ const App = () => {
   })
 
   const removeBook = id => {
-    setAnimationState(false)
     Axios({
       method: "POST",
       url: "http://localhost:5000/delete",
@@ -136,7 +149,7 @@ const App = () => {
           <i className="bg-warning rounded p-2"></i>
           <i className="bg-danger rounded p-2"></i>
           <i className="bg-success rounded mr-2 p-2 pt-3"></i>
-          <span className="d-block mt-2">BookShop.pl</span>
+          <span className="animate__tada animate__animated d-block mt-2">BookShop.pl</span>
         </Col>
       </Row>
       <div className="p-2 mx-4 border-bottom"></div>
@@ -172,7 +185,7 @@ const App = () => {
           <Form.Label className="my-2 pr-2 font-weight-bold">Autor</Form.Label>
           <Form.Control className="border-primary" onChange={e => setAuthorFilter(e.target.value)} placeholder="Henryk Sienkiewicz" />
         </Col>
-        <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3">
+        <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3 overflow-hidden">
           <Form.Label className="my-2 pr-2 font-weight-bold">Sortuj</Form.Label>
           <Form.Control className="border-primary" as="select" defaultValue="ascAuth" onChange={e => setOrder(e.target.value)} custom>
             <option value="ascAuth">Rosnąco po autorze</option>
@@ -184,9 +197,9 @@ const App = () => {
       </Row>
       <Row className="row m-1 p-3 px-md-5 justify-content-end">
         <Col xs={12}>
-          <ul className="list-group list-group-flush">
+          <TransitionGroup component="ul" className="list-group list-group-flush bookList">
             {booksOnPage}
-          </ul>
+          </TransitionGroup>
         </Col>
       </Row>
       <Row>
