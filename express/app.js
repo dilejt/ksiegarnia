@@ -45,7 +45,7 @@ app.post('/add', (req, res) => {
     })
 })
 
-app.post('/delete', (req, res) => {
+app.delete('/delete', (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)

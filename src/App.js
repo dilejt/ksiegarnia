@@ -37,7 +37,7 @@ const App = () => {
 
   const modifyBookList = (filteredBookList) => {
     let copy = [...filteredBookList]
-    if(authorFilter && titleFilter) copy = copy.filter(bookList => bookList.autor.includes(authorFilter) && bookList.tytul.includes(titleFilter))
+    copy = copy.filter(bookList => bookList.autor.includes(authorFilter) && bookList.tytul.includes(titleFilter))
     switch(order) {
       case "ascAuth":
         copy.sort((a, b) => ('' + a.autor).localeCompare(b.autor))
@@ -109,7 +109,7 @@ const App = () => {
 
   const removeBook = id => {
     Axios({
-      method: "POST",
+      method: "DELETE",
       url: "http://localhost:5000/delete",
       data: {
         id : id
@@ -195,7 +195,7 @@ const App = () => {
           </Form.Control>
         </Col>
       </Row>
-      <Row className="row m-1 p-3 px-md-5 justify-content-end">
+      <Row className="row m-1 p-3 px-md-5 justify-content-end overflow-hidden">
         <Col xs={12}>
           <TransitionGroup component="ul" className="list-group list-group-flush bookList">
             {booksOnPage}
