@@ -80,6 +80,12 @@ const App = () => {
         }}
       >
         <li className="list-group-item d-flex bookItemList">
+          <div className="pt-2 pr-3">
+          {item.img != "" 
+            ? <img className="img-fluid" src={item.img}></img>
+            : <img className="img-fluid" src=""></img>
+          }
+          </div>
           <div className="pt-2">
             <div>{item.tytul}</div>
             <div><i>{item.autor}</i></div>
