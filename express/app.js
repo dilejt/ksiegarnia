@@ -2,15 +2,6 @@ const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
 const multer  = require('multer')
-const storage = multer.diskStorage({
-    destination: (req, file, callBack) => {
-        callBack(null, 'images')
-    },
-    filename: (req, file, callBack) => {
-        callBack(null, `${file.originalname}`)
-    }
-})
-const upload = multer({ dest: './public/images/' })
 const app = express()
 const port = process.env.PORT || 5000;
 
@@ -42,17 +33,37 @@ app.get('/', (req, res) => {
     })
 })
 
-app.post('/add', upload.single('file'), (req, res) => {
-    let book = req.body
-    console.log(JSON.stringify(req.body.img))
-    pool.getConnection((err, connection) => {
-        if(err) throw err
-        console.log('connected as id ' + connection.threadId)
-        connection.query('INSERT INTO ksiazka(tytul,autor) VALUES(?,?)', [book.tytul, book.autor], (err, result) => {
-            connection.release()
-        })
-        res.end('Success')
-    })
+const storage = multer.diskStorage({
+    destination: (req, file, callBack) => {
+        callBack(null, '../public/images/')
+    },
+    filename: (req, file, callBack) => {
+        callBack(null, `${file.originalname}`)
+    }
+})
+
+const upload = multer({
+    storage: storage
+})
+
+app.post('/add', upload.single('file'), (req, res, next) => {
+    // let book = req.body
+    const file = req.file;
+    console.log(file);
+    if (!file) {
+        const error = new Error('No File')
+        error.httpStatusCode = 400
+        return next(error)
+    }
+    res.send(file)
+    // pool.getConnection((err, connection) => {
+    //     if(err) throw err
+    //     console.log('connected as id ' + connection.threadId)
+    //     connection.query('INSERT INTO ksiazka(tytul,autor) VALUES(?,?)', [book.tytul, book.autor], (err, result) => {
+    //         connection.release()
+    //     })
+    //     res.end('Success')
+    // })
 })
 
 app.delete('/delete', (req, res) => {

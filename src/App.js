@@ -135,18 +135,13 @@ const App = () => {
   }
 
   const addBook = () => {
+    const data = new FormData() ;
+    data.append('file', newImage);
     Axios({
       headers: { 'Content-Type':'application/x-www-form-urlencoded' },
       method: "POST",
       url: "http://localhost:5000/add",
-      data: JSON.stringify({
-        tytul: newTitle,
-        autor: newAuthor,
-        img: newImage
-      }),
-      paramsSerializer: params => {
-        return qs.stringify(params)
-      }
+      data: data
     })
     .then(() => {
       fetchData()
