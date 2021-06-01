@@ -15,6 +15,7 @@ const App = () => {
   const [newTitle, setNewTitle] = useState("")
   const [newAuthor, setNewAuthor] = useState("")
   const [newImage, setNewImage] = useState({})
+  const [fileName, setFileName] = useState("")
   const [order, setOrder] = useState("")
   const booksPerPage = 4
 
@@ -132,6 +133,8 @@ const App = () => {
 
   const uploadFile = event => {
     setNewImage(event.target.files[0])
+    if(event.target.files[0]) setFileName(event.target.files[0].name)
+    else setFileName(null)
   }
 
   const addBook = () => {
@@ -140,7 +143,6 @@ const App = () => {
     data.append('title', newTitle)
     data.append('author', newAuthor)
     Axios({
-      headers: { 'Content-Type':'application/x-www-form-urlencoded' },
       method: "POST",
       url: "http://localhost:5000/add",
       data: data
@@ -186,9 +188,9 @@ const App = () => {
             </Col>
           </Form.Group>
           <Form.Group className="text-center" as={Row}>
-            <Form.Label className="font-weight-bold ml-sm-auto d-block d-sm-table pictureLabel border-primary form-control mx-3" column sm={3}>
+            <Form.Label className="font-weight-bold ml-sm-auto d-block d-sm-table pictureLabel border-primary form-control mx-3" column xs={3}>
               <Form.Control type="file" name="file" accept="image/*" className="border-primary form-control" onChange={e => uploadFile(e)}  />
-              <div>Obrazek</div>
+              <div>{fileName ? fileName : "Obrazek"}</div>
             </Form.Label>
           </Form.Group>
           <Button type="submit" onClick={() => addBook()}>Dodaj</Button>

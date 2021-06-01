@@ -56,6 +56,21 @@ $font: #294499;
             height: 100%;
             width: 100%;
         }
+        .pictureLabel {
+            cursor: pointer;
+            background-color: darken($blue, 8%) !important;
+            &:hover{
+                background-color: $blue !important;
+            }
+            div{
+                overflow: hidden;              
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            input[type="file"] {
+                display: none;
+            }
+        }
     }
     div.row:nth-child(6){
         min-height: 587px;
@@ -94,17 +109,4 @@ $font: #294499;
             }
         }
     }
-}
-
-label.pictureLabel input[type="file"] {
-    display: none;
-}
-.pictureLabel {
-    overflow: hidden;              
-    text-overflow: ellipsis;
-    cursor: pointer;
-    background-color: darken($blue, 8%) !important;
-}
-.pictureLabel:hover {
-    background-color: $blue !important;
 }
