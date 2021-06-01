@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap";
+
 $blue: #aaebff;
 $font: #294499;
 
@@ -55,6 +57,9 @@ $font: #294499;
             width: 100%;
         }
     }
+    div.row:nth-child(6){
+        min-height: 587px;
+    }
     .bookList{
         max-height: 555px;
         .bookItemList{
@@ -89,4 +94,15 @@ $font: #294499;
             }
         }
     }
+}
+
+label.pictureLabel input[type="file"] {
+    display: none;
+}
+.pictureLabel {
+    cursor: pointer;
+    background-color: darken($blue, 8%) !important;
+}
+.pictureLabel:hover {
+    background-color: $blue !important;
 }

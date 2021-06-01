@@ -1,7 +1,16 @@
 const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
-
+const multer  = require('multer')
+const storage = multer.diskStorage({
+    destination: (req, file, callBack) => {
+        callBack(null, 'images')
+    },
+    filename: (req, file, callBack) => {
+        callBack(null, `${file.originalname}`)
+    }
+})
+const upload = multer({ dest: './public/images/' })
 const app = express()
 const port = process.env.PORT || 5000;
 
@@ -33,8 +42,9 @@ app.get('/', (req, res) => {
     })
 })
 
-app.post('/add', (req, res) => {
-    let book = req.body;
+app.post('/add', upload.single('file'), (req, res) => {
+    let book = req.body
+    console.log(JSON.stringify(req.body.img))
     pool.getConnection((err, connection) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)

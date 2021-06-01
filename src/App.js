@@ -14,6 +14,7 @@ const App = () => {
   const [titleFilter, setTitleFilter] = useState("")
   const [newTitle, setNewTitle] = useState("")
   const [newAuthor, setNewAuthor] = useState("")
+  const [newImage, setNewImage] = useState({})
   const [order, setOrder] = useState("")
   const booksPerPage = 4
 
@@ -129,13 +130,22 @@ const App = () => {
     })
   }
 
+  const uploadFile = event => {
+    setNewImage(event.target.files[0])
+  }
+
   const addBook = () => {
     Axios({
+      headers: { 'Content-Type':'application/x-www-form-urlencoded' },
       method: "POST",
       url: "http://localhost:5000/add",
-      data: {
+      data: JSON.stringify({
         tytul: newTitle,
-        autor: newAuthor
+        autor: newAuthor,
+        img: newImage
+      }),
+      paramsSerializer: params => {
+        return qs.stringify(params)
       }
     })
     .then(() => {
@@ -178,6 +188,12 @@ const App = () => {
               <Form.Control className="border-primary" onChange={e => setNewAuthor(e.target.value)} placeholder="Autor" />
             </Col>
           </Form.Group>
+          <Form.Group className="text-center" as={Row}>
+            <Form.Label className="font-weight-bold ml-sm-auto d-block d-sm-table pictureLabel border-primary form-control mx-3" column sm={6}>
+              <Form.Control type="file" name="file" accept="image/*" className="border-primary form-control" onChange={e => uploadFile(e)}  />
+              <div>Obrazek</div>
+            </Form.Label>
+          </Form.Group>
           <Button type="submit" onClick={() => addBook()}>Dodaj</Button>
         </Col>
       </Row>
@@ -193,7 +209,7 @@ const App = () => {
         </Col>
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3 overflow-hidden">
           <Form.Label className="my-2 pr-2 font-weight-bold">Sortuj</Form.Label>
-          <Form.Control className="border-primary" as="select" defaultValue="ascAuth" onChange={e => setOrder(e.target.value)} custom>
+          <Form.Control className="border-primary" as="select" defaultValue="ascAuth" onChange={e => setOrder(e.target.value[0])} custom>
             <option value="ascAuth">Rosnąco po autorze</option>
             <option value="descAuth">Malejąco po autorze</option>
             <option value="ascTitle">Rosnąco po tytule</option>
