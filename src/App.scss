@@ -100,6 +100,8 @@ label.pictureLabel input[type="file"] {
     display: none;
 }
 .pictureLabel {
+    overflow: hidden;              
+    text-overflow: ellipsis;
     cursor: pointer;
     background-color: darken($blue, 8%) !important;
 }
