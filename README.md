@@ -9,9 +9,11 @@
 * [Usage](#usage)
 * [Contact](#contact)
 
+
 ## General Information
-Web application that allows you to add items with information about the book: author, title and book cover in the form of an image file. The item can also be deleted, sorted ascending or descending. The list is paginated to display up to 4 books and filters to search by name or author.
-	
+Web application that allows you to add items with information about the book: author, title and book cover in the form of an image file. The item can also be deleted, sorted ascending or descending. The list is paginated to display up to 4 books and filters to search by name or author. The page has an animated caption and a list. The data is stored in a MySQL database named ksiegarnia and table ksiazka.
+
+
 ## Technologies Used
 Project is created with:
 * [`react-bootstrap`](https://www.npmjs.com/package/react-bootstrap) v1.6.0 (Bootstrap 4.6)
@@ -36,10 +38,20 @@ List of features:
 ## Setup
 To run this project, install it locally using npm:
 
+In main folder:
 ```
 $ npm install
 $ npm start
 ```
+Second console for backend api:
+```
+$ cd .\express\
+$ npm install
+$ node .\app.js
+```
+
+Use XAMPP, for example, to create a database locally and then import it using the [`file`](https://www.npmjs.com/package/react-bootstrap)
+
 
 Then visit [`http://localhost:3000`](http://localhost:3000).
 
