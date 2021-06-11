@@ -32,7 +32,7 @@ List of features:
 
 
 ## Screenshots
-
+![Example screenshot](./screenshots/screenshot.png)
 	
 ## Setup
 To run this project, install it locally using npm:
