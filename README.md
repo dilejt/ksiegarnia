@@ -9,7 +9,7 @@
 * [Usage](#usage)
 * [Contact](#contact)
 
-## General info
+## General Information
 Web application that allows you to add items with information about the book: author, title and book cover in the form of an image file. The item can also be deleted, sorted ascending or descending. The list is paginated to display up to 4 books and filters to search by name or author.
 	
 ## Technologies Used
@@ -32,7 +32,7 @@ List of features:
 
 
 ## Screenshots
-![Alt text](./screenshots/sreenshot.jpg?raw=true "Optional Title")
+![1](https://github.com/dilejt/ksiegarnia/blob/master/screenshots/sreenshot.png)
 ## Setup
 To run this project, install it locally using npm:
 
