@@ -32,8 +32,7 @@ List of features:
 
 
 ## Screenshots
-![Example screenshot](./screenshots/screenshot.png)
-	
+![Alt text](./screenshots/sreenshot.jpg?raw=true "Optional Title")
 ## Setup
 To run this project, install it locally using npm:
 
