@@ -22,7 +22,12 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({
-    storage: storage
+    storage: storage,
+    limits: {
+        fieldNameSize: 256,
+        fileSize: 52428800,
+        files: 1
+      }
 })
 
 const pool  = mysql.createPool({

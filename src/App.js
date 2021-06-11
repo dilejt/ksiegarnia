@@ -84,8 +84,8 @@ const App = () => {
         <li className="list-group-item d-flex bookItemList">
           <div className="pt-2 pr-3">
           {item.img != "" 
-            ? <img className="img-fluid" src={item.img}></img>
-            : <img className="img-fluid" src=""></img>
+            ? <img className="bookImg" src={item.img}></img>
+            : <img className="bookImg" src=""></img>
           }
           </div>
           <div className="pt-2">
@@ -138,21 +138,27 @@ const App = () => {
   }
 
   const addBook = () => {
-    const data = new FormData()
-    data.append('file', newImage)
-    data.append('title', newTitle)
-    data.append('author', newAuthor)
-    Axios({
-      method: "POST",
-      url: "http://localhost:5000/add",
-      data: data
-    })
-    .then(() => {
-      fetchData()
-    })
-    .catch(function (error) {
-      //console.log(error)
-    })
+    if(newTitle && newAuthor)
+    {
+      const data = new FormData()
+      data.append('file', newImage)
+      data.append('title', newTitle)
+      data.append('author', newAuthor)
+      Axios({
+        method: "POST",
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+        url: "http://localhost:5000/add",
+        data: data
+      })
+      .then(() => {
+        fetchData()
+      })
+      .catch(function (error) {
+        //console.log(error)
+      })
+    }
   }
 
   return (
@@ -193,7 +199,7 @@ const App = () => {
               <div>{fileName ? fileName : "Obrazek"}</div>
             </Form.Label>
           </Form.Group>
-          <Button type="submit" onClick={() => addBook()}>Dodaj</Button>
+          <Button onClick={() => addBook()}>Dodaj</Button>
         </Col>
       </Row>
       <div className="p-2 mx-4 border-bottom"></div>
@@ -208,7 +214,7 @@ const App = () => {
         </Col>
         <Col lg={4} className="d-md-flex text-center align-items-center px-1 pr-3 overflow-hidden">
           <Form.Label className="my-2 pr-2 font-weight-bold">Sortuj</Form.Label>
-          <Form.Control className="border-primary" as="select" defaultValue="ascAuth" onChange={e => setOrder(e.target.value[0])} custom>
+          <Form.Control className="border-primary" as="select" defaultValue="ascAuth" onChange={e => setOrder(e.target.value)} custom>
             <option value="ascAuth">Rosnąco po autorze</option>
             <option value="descAuth">Malejąco po autorze</option>
             <option value="ascTitle">Rosnąco po tytule</option>

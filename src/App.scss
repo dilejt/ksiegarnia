@@ -66,6 +66,7 @@ $font: #294499;
                 overflow: hidden;              
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                max-width: 113px;
             }
             input[type="file"] {
                 display: none;
@@ -73,7 +74,7 @@ $font: #294499;
         }
     }
     div.row:nth-child(6){
-        min-height: 587px;
+        min-height: calc(1.25rem + 590px);
     }
     .bookList{
         max-height: 555px;
@@ -81,8 +82,9 @@ $font: #294499;
             border-left: 6px solid !important;
             border-radius: 5px !important;
             border-color: $blue !important;
-            img{
-                width: 80px;
+            .bookImg{
+                height: 114px;
+                object-fit: cover;
                 &[src=""]{
                     display: none;
                 }
