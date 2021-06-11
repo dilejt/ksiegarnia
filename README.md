@@ -5,8 +5,9 @@
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
 * [Features](#features)
+* [Screenshots](#screenshots)
 * [Setup](#setup)
-* [Usage](#usage)
+* [Room for Improvement](#room-for-improvement)
 * [Contact](#contact)
 
 
@@ -35,6 +36,8 @@ List of features:
 
 ## Screenshots
 ![1](https://github.com/dilejt/ksiegarnia/blob/master/screenshots/sreenshot.png)
+
+
 ## Setup
 To run this project, install it locally using npm:
 
