@@ -11,7 +11,7 @@
 
 
 ## General Information
-Web application that allows you to add items with information about the book: author, title and book cover in the form of an image file. The item can also be deleted, sorted ascending or descending. The list is paginated to display up to 4 books and filters to search by name or author. The page has an animated caption and a list. The data is stored in a MySQL database named ksiegarnia and table ksiazka.
+Web application that allows you to add items with information about the book: author, title and book cover in the form of an image file. The item can also be deleted, sorted ascending or descending. The list is paginated to display up to 4 books and filters to search by name or author. The page has an animated caption and a list. The data is stored in a MySQL database named ksiegarnia and table ksiazka. Autoincrementation is applied to the primary key id. The other columns are title, author, and img.
 
 
 ## Technologies Used
@@ -50,13 +50,9 @@ $ npm install
 $ node .\app.js
 ```
 
-Use XAMPP, for example, to create a database locally and then import it using the [`file`](https://www.npmjs.com/package/react-bootstrap)
-
+Use XAMPP, for example, to create a database locally and then import it using the [`file`](https://github.com/dilejt/ksiegarnia/blob/master/ksiegarnia.sql)
 
 Then visit [`http://localhost:3000`](http://localhost:3000).
-
-
-## Usage
 
 
 ## Room for Improvement
